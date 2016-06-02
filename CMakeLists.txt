@@ -10,5 +10,5 @@ set(SOURCE_FILES main.cpp)
 add_executable(${PROJECT_NAME} ${SOURCE_FILES})
 
 # unfortunately necessary
-string(STRIP ${SDL2_LIBRARIES} SDL2_LIBRARIES)
+string(STRIP "${SDL2_LIBRARIES}" SDL2_LIBRARIES)
 target_link_libraries(${PROJECT_NAME} ${SDL2_LIBRARIES})
