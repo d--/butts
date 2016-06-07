@@ -28,7 +28,7 @@ endif(MSVC)
 
 include_directories(${SDL2_INCLUDE_DIRS})
 
-set(SOURCE_FILES main.cpp)
+set(SOURCE_FILES src/main.cpp)
 add_executable(${PROJECT_NAME} ${SOURCE_FILES})
 
 # unfortunately necessary
