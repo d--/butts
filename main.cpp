@@ -1,14 +1,12 @@
 #include <iostream>
 #include "SDL.h"
 
-using namespace std;
-
 int main(int argc, char *argv[]) {
     if (SDL_Init(SDL_INIT_VIDEO) != 0) {
         SDL_Quit();
         return 1;
     }
-    cout << "Hello, butts!" << endl;
+    std::cout << "Hello, butts!" << std::endl;
     SDL_Quit();
     return 0;
 }
