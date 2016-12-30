@@ -29,6 +29,7 @@ if(MSVC)
 
     set(WINDOWS_GLEW_DIR C:/dev/GLEW)
     set(WINDOWS_GLEW_LIB_DIR ${WINDOWS_GLEW_DIR}/lib/Release/Win32)
+    set(WINDOWS_GLEW_BIN_DIR ${WINDOWS_GLEW_DIR}/bin/Release/Win32)
 
     set(GLEW_INCLUDE_DIR ${WINDOWS_GLEW_DIR}/include)
     find_library(GLEW_LIBRARY
@@ -50,10 +51,15 @@ string(STRIP "${SDL2_LIBRARIES}" SDL2_LIBRARIES)
 target_link_libraries(${PROJECT_NAME} ${SDL2_LIBRARIES})
 
 if(MSVC)
-    add_custom_command(TARGET butts POST_BUILD
+    add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
             COMMAND ${CMAKE_COMMAND} -E copy
             "${WINDOWS_SDL2_LIB_DIR}/SDL2.dll"
-            $<TARGET_FILE_DIR:butts>)
+            $<TARGET_FILE_DIR:${PROJECT_NAME}>)
+
+    add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
+            COMMAND ${CMAKE_COMMAND} -E copy
+            "${WINDOWS_GLEW_BIN_DIR}/glew32.dll"
+            $<TARGET_FILE_DIR:${PROJECT_NAME}>)
 endif(MSVC)
 
 target_link_libraries(${PROJECT_NAME} ${OPENGL_gl_LIBRARY})

@@ -1,6 +1,11 @@
 #include <iostream>
-#include "SDL.h"
+#include <SDL.h>
 #include <GL/glew.h>
+
+void render() {
+    glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+    glClear(GL_COLOR_BUFFER_BIT);
+}
 
 int main(int argc, char *argv[]) {
     if (SDL_Init(SDL_INIT_VIDEO) != 0) {
@@ -18,7 +23,7 @@ int main(int argc, char *argv[]) {
         SDL_WINDOWPOS_UNDEFINED,    // x
         SDL_WINDOWPOS_UNDEFINED,    // y
         400,                        // w
-        400,                        // h
+        400,                        // 
         flags                       // flags
     );
     
@@ -29,11 +34,10 @@ int main(int argc, char *argv[]) {
     }
 
     SDL_GLContext gl = SDL_GL_CreateContext(window);
-
-    glClearColor(0, 0, 0, 1);
-    glClear(GL_COLOR_BUFFER_BIT);
-
-    SDL_GL_SwapWindow(window);
+    GLenum err = glewInit();
+    if (err != GLEW_OK) {
+        SDL_Log("Error: %s\n", glewGetErrorString(err));
+    }
 
     SDL_Event event;
 
@@ -44,6 +48,8 @@ int main(int argc, char *argv[]) {
                 quit = 1;
             }
         }
+        render();
+        SDL_GL_SwapWindow(window);
     }
 
     SDL_GL_DeleteContext(gl);
