@@ -3,7 +3,8 @@ Notes
 
 0) Install a few things
   - g++
-  - libXext-devel
+  - libXext-devel (libxext-dev on ubuntu)
+  - libglew-dev (on ubuntu; not sure of fedora)
   - cmake
   - mercurial (hg)
 

@@ -1,10 +1,11 @@
 cmake_minimum_required(VERSION 3.3)
 project(butts)
 
-find_package(OPENGL)
+find_package(OpenGL REQUIRED)
 if(NOT MSVC)
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -Wall")
-    find_package(SDL2)
+    find_package(SDL2 REQUIRED)
+    find_package(GLEW REQUIRED)
 endif(NOT MSVC)
 if(MSVC)
     set(WINDOWS_SDL2_DIR C:/dev/sdl2)
@@ -49,11 +50,11 @@ string(STRIP "${SDL2_LIBRARIES}" SDL2_LIBRARIES)
 target_link_libraries(${PROJECT_NAME} ${SDL2_LIBRARIES})
 
 if(MSVC)
-    target_link_libraries(${PROJECT_NAME} ${GLEW_LIBRARY})
     add_custom_command(TARGET butts POST_BUILD
             COMMAND ${CMAKE_COMMAND} -E copy
             "${WINDOWS_SDL2_LIB_DIR}/SDL2.dll"
             $<TARGET_FILE_DIR:butts>)
 endif(MSVC)
 
-target_link_libraries(${PROJECT_NAME} ${OPENGL_LIBRARIES})
+target_link_libraries(${PROJECT_NAME} ${OPENGL_gl_LIBRARY})
+target_link_libraries(${PROJECT_NAME} ${GLEW_LIBRARY})

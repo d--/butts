@@ -1,9 +1,6 @@
 #include <iostream>
 #include "SDL.h"
-
-#ifdef _WIN32
 #include <GL/glew.h>
-#endif
 
 int main(int argc, char *argv[]) {
     if (SDL_Init(SDL_INIT_VIDEO) != 0) {
