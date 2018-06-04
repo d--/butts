@@ -37,11 +37,10 @@ if(MSVC)
             PATH_SUFFIXES lib
             PATHS ${WINDOWS_GLEW_LIB_DIR}
     )
-
-    include_directories(${GLEW_INCLUDE_DIR})
 endif(MSVC)
 
 include_directories(${SDL2_INCLUDE_DIRS})
+include_directories(${GLEW_INCLUDE_DIR})
 
 set(SOURCE_FILES src/main.cpp)
 add_executable(${PROJECT_NAME} ${SOURCE_FILES})
