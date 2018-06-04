@@ -1,11 +1,26 @@
 cmake_minimum_required(VERSION 3.3)
 project(butts)
 
-find_package(OpenGL REQUIRED)
 if(NOT MSVC)
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -Wall")
+endif(NOT MSVC)
+
+set(SOURCE_FILES src/main.cpp)
+add_executable(${PROJECT_NAME} ${SOURCE_FILES})
+
+
+###############################################################################
+# OpenGL
+###############################################################################
+find_package(OpenGL REQUIRED)
+target_link_libraries(${PROJECT_NAME} ${OPENGL_gl_LIBRARY})
+
+
+###############################################################################
+# SDL2
+###############################################################################
+if(NOT MSVC)
     find_package(SDL2 REQUIRED)
-    find_package(GLEW REQUIRED)
 endif(NOT MSVC)
 if(MSVC)
     set(WINDOWS_SDL2_DIR C:/dev/sdl2)
@@ -27,6 +42,26 @@ if(MSVC)
 
     set(SDL2_LIBRARIES ${SDL2_LIBRARY} ${SDL2_LIBRARY_MAIN})
 
+    add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
+            COMMAND ${CMAKE_COMMAND} -E copy
+            "${WINDOWS_SDL2_LIB_DIR}/SDL2.dll"
+            $<TARGET_FILE_DIR:${PROJECT_NAME}>)
+endif(MSVC)
+
+include_directories(${SDL2_INCLUDE_DIRS})
+
+# unfortunately necessary
+string(STRIP "${SDL2_LIBRARIES}" SDL2_LIBRARIES)
+target_link_libraries(${PROJECT_NAME} ${SDL2_LIBRARIES})
+
+
+###############################################################################
+# GLEW
+###############################################################################
+if(NOT MSVC)
+    find_package(GLEW REQUIRED)
+endif(NOT MSVC)
+if(MSVC)
     set(WINDOWS_GLEW_DIR C:/dev/GLEW)
     set(WINDOWS_GLEW_LIB_DIR ${WINDOWS_GLEW_DIR}/lib/Release/Win32)
     set(WINDOWS_GLEW_BIN_DIR ${WINDOWS_GLEW_DIR}/bin/Release/Win32)
@@ -37,23 +72,6 @@ if(MSVC)
             PATH_SUFFIXES lib
             PATHS ${WINDOWS_GLEW_LIB_DIR}
     )
-endif(MSVC)
-
-include_directories(${SDL2_INCLUDE_DIRS})
-include_directories(${GLEW_INCLUDE_DIR})
-
-set(SOURCE_FILES src/main.cpp)
-add_executable(${PROJECT_NAME} ${SOURCE_FILES})
-
-# unfortunately necessary
-string(STRIP "${SDL2_LIBRARIES}" SDL2_LIBRARIES)
-target_link_libraries(${PROJECT_NAME} ${SDL2_LIBRARIES})
-
-if(MSVC)
-    add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
-            COMMAND ${CMAKE_COMMAND} -E copy
-            "${WINDOWS_SDL2_LIB_DIR}/SDL2.dll"
-            $<TARGET_FILE_DIR:${PROJECT_NAME}>)
 
     add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
             COMMAND ${CMAKE_COMMAND} -E copy
@@ -61,5 +79,6 @@ if(MSVC)
             $<TARGET_FILE_DIR:${PROJECT_NAME}>)
 endif(MSVC)
 
-target_link_libraries(${PROJECT_NAME} ${OPENGL_gl_LIBRARY})
+include_directories(${GLEW_INCLUDE_DIR})
 target_link_libraries(${PROJECT_NAME} ${GLEW_LIBRARY})
+
