@@ -24,8 +24,8 @@ Notes
 3) Build the project
 
   ```bash
-  git clone https://github.com/d--/butts
-  cd butts
+  git clone https://github.com/d--/sdl_starter
+  cd sdl_starter
   mkdir build
   cd build
   cmake ..
